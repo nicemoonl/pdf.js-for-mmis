@@ -112,6 +112,15 @@ class L10n {
   }
 
   static #fixupLangCode(langCode) {
+    const locale = new URL(window.location.href).searchParams.get("locale");
+    if (locale == 'en') {
+      return 'en-us';
+    } else if (locale == 'tc') {
+      return 'zh-tw';
+    } else if (locale == 'sc') {
+      return 'zh-cn';
+    }
+
     // Use only lowercase language-codes internally, and fallback to English.
     langCode = langCode?.toLowerCase() || "en-us";
 

@@ -34,8 +34,8 @@ pdfjs-zoom-in-button-label = Zoom In
 pdfjs-zoom-select =
     .title = Zoom
 pdfjs-presentation-mode-button =
-    .title = Switch to Presentation Mode
-pdfjs-presentation-mode-button-label = Presentation Mode
+    .title = Fullscreen Mode
+pdfjs-presentation-mode-button-label = Fullscreen Mode
 pdfjs-open-file-button =
     .title = Open File
 pdfjs-open-file-button-label = Open
@@ -103,6 +103,12 @@ pdfjs-spread-odd-button-label = Odd Spreads
 pdfjs-spread-even-button =
     .title = Join page spreads starting with even-numbered pages
 pdfjs-spread-even-button-label = Even Spreads
+pdfjs-spread-odd-reverse-button =
+    .title = Join page spreads starting with odd-numbered pages (reverse)
+pdfjs-spread-odd-reverse-button-label = Odd Spreads (Reverse)
+pdfjs-spread-even-reverse-button =
+    .title = Join page spreads starting with even-numbered pages (reverse)
+pdfjs-spread-even-reverse-button-label = Even Spreads (Reverse)
 
 ## Document properties dialog
 
@@ -183,10 +189,10 @@ pdfjs-printing-not-ready = Warning: The PDF is not fully loaded for printing.
 pdfjs-toggle-sidebar-button =
     .title = Toggle Sidebar
 pdfjs-toggle-sidebar-notification-button =
-    .title = Toggle Sidebar (document contains outline/attachments/layers)
+    .title = Toggle Sidebar
 pdfjs-toggle-sidebar-button-label = Toggle Sidebar
 pdfjs-document-outline-button =
-    .title = Show Document Outline (double-click to expand/collapse all items)
+    .title = Show Document Outline
 pdfjs-document-outline-button-label = Document Outline
 pdfjs-attachments-button =
     .title = Show Attachments

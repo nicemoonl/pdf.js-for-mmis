@@ -67,6 +67,8 @@ const SpreadMode = {
   NONE: 0, // Default value.
   ODD: 1,
   EVEN: 2,
+  ODDREVERSE: 3,
+  EVENREVERSE: 4
 };
 
 const CursorTool = {

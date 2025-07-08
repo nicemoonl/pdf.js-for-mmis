@@ -1,3 +1,7 @@
+// pdf viewer plugin references
+// pdf.js original version 5.3.31 -- https://mozilla.github.io/pdf.js/
+// viewer.js is customized
+
 /* Copyright 2016 Mozilla Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +21,10 @@ import { RenderingStates, ScrollMode, SpreadMode } from "./ui_utils.js";
 import { AppOptions } from "./app_options.js";
 import { LinkTarget } from "./pdf_link_service.js";
 import { PDFViewerApplication } from "./app.js";
+
+// MOB exclusive
+const urlParams = new URLSearchParams(window.location.search);
+window.isMob = urlParams.get("mob") === "1";
 
 const AppConstants =
   typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")
@@ -69,6 +77,7 @@ function getViewerConfiguration() {
     },
     secondaryToolbar: {
       toolbar: document.getElementById("secondaryToolbar"),
+      fullscreenButton: document.getElementById("fullscreenToggle"), // custom button for fullscreen mode, same function as presentationModeButton
       toggleButton: document.getElementById("secondaryToolbarToggleButton"),
       presentationModeButton: document.getElementById("presentationMode"),
       openFileButton:
@@ -91,6 +100,8 @@ function getViewerConfiguration() {
       spreadNoneButton: document.getElementById("spreadNone"),
       spreadOddButton: document.getElementById("spreadOdd"),
       spreadEvenButton: document.getElementById("spreadEven"),
+      spreadOddReverseButton: document.getElementById("spreadOddReverse"),
+      spreadEvenReverseButton: document.getElementById("spreadEvenReverse"),
       imageAltTextSettingsButton: document.getElementById(
         "imageAltTextSettings"
       ),

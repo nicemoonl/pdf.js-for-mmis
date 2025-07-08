@@ -381,11 +381,23 @@ class PDFSidebar {
     eventBus._on("outlineloaded", evt => {
       onTreeLoaded(evt.outlineCount, this.outlineButton, SidebarView.OUTLINE);
 
+      var viewLayersButton = document.getElementById("viewOutline");
+      if (viewLayersButton && viewLayersButton.hasAttribute('disabled')) {
+        viewLayersButton.removeAttribute('disabled'); // 移除disabled属性（如果需要）
+        viewLayersButton.style.display = 'none'; // 设置为不显示
+      }
+
       evt.currentOutlineItemPromise.then(enabled => {
         if (!this.isInitialViewSet) {
           return;
         }
         this._currentOutlineItemButton.disabled = !enabled;
+
+        var currentOutlineItemButton = document.getElementById("currentOutlineItem");
+        if (currentOutlineItemButton && currentOutlineItemButton.hasAttribute('disabled')) {
+          currentOutlineItemButton.removeAttribute('disabled'); // 移除disabled属性（如果需要）
+          currentOutlineItemButton.style.display = 'none'; // 设置为不显示
+        }
       });
     });
 
@@ -395,10 +407,22 @@ class PDFSidebar {
         this.attachmentsButton,
         SidebarView.ATTACHMENTS
       );
+
+      var viewAttachmentsButton = document.getElementById("viewAttachments");
+      if (viewAttachmentsButton && viewAttachmentsButton.hasAttribute('disabled')) {
+        viewAttachmentsButton.removeAttribute('disabled'); // 移除disabled属性（如果需要）
+        viewAttachmentsButton.style.display = 'none'; // 设置为不显示
+      }
     });
 
     eventBus._on("layersloaded", evt => {
       onTreeLoaded(evt.layersCount, this.layersButton, SidebarView.LAYERS);
+
+      var viewLayersButton = document.getElementById("viewLayers");
+      if (viewLayersButton && viewLayersButton.hasAttribute('disabled')) {
+        viewLayersButton.removeAttribute('disabled');
+        viewLayersButton.style.display = 'none';
+      }
     });
 
     // Update the thumbnailViewer, if visible, when exiting presentation mode.

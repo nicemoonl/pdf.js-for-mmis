@@ -31,7 +31,7 @@ const DEFAULT_URL = "../../web/compressed.tracemonkey-pldi-09.pdf";
 const DEFAULT_SCALE_DELTA = 1.1;
 const MIN_SCALE = 0.25;
 const MAX_SCALE = 10.0;
-const DEFAULT_SCALE_VALUE = "auto";
+const DEFAULT_SCALE_VALUE = "page-fit";
 
 const PDFViewerApplication = {
   pdfLoadingTask: null,

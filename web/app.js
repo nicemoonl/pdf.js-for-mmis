@@ -788,10 +788,12 @@ const PDFViewerApplication = {
       appConfig.secondaryToolbar?.printButton.classList.add("hidden");
     }
 
-    if (!this.supportsFullscreen) {
+    if (!this.supportsFullscreen || window.isMob) { // hide fullscreen button on MOB or not supported
+      appConfig.secondaryToolbar?.fullscreenButton.classList.add("hidden"); // customized
       appConfig.secondaryToolbar?.presentationModeButton.classList.add(
         "hidden"
       );
+      document.getElementById("viewBookmarkSeparator")?.classList.add("hidden");
     }
 
     if (this.supportsIntegratedFind) {
@@ -1228,6 +1230,7 @@ const PDFViewerApplication = {
     }
   },
 
+  // not allow download or save
   async downloadOrSave() {
     // In the Firefox case, this method MUST always trigger a download.
     // When the user is closing a modified and unsaved document, we display a
@@ -1235,12 +1238,12 @@ const PDFViewerApplication = {
     // saving to complete before closing the tab.
     // So in case this function does not trigger a download, we must trigger a
     // a message and change PdfjsChild.sys.mjs to take it into account.
-    const { classList } = this.appConfig.appContainer;
-    classList.add("wait");
-    await (this.pdfDocument?.annotationStorage.size > 0
-      ? this.save()
-      : this.download());
-    classList.remove("wait");
+    // const { classList } = this.appConfig.appContainer;
+    // classList.add("wait");
+    // await (this.pdfDocument?.annotationStorage.size > 0
+    //   ? this.save()
+    //   : this.download());
+    // classList.remove("wait");
   },
 
   /**
@@ -1941,7 +1944,7 @@ const PDFViewerApplication = {
   },
 
   requestPresentationMode() {
-    this.pdfPresentationMode?.request();
+    this.pdfPresentationMode?.requestFullscreenOnly();
   },
 
   triggerPrinting() {
@@ -2304,6 +2307,7 @@ if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
   ]);
   // eslint-disable-next-line no-var
   var validateFileURL = function (file) {
+    return; // pass validation
     if (!file) {
       return;
     }
@@ -2779,12 +2783,12 @@ function onKeyDown(evt) {
   if (cmd === 1 || cmd === 8 || cmd === 5 || cmd === 12) {
     // either CTRL or META key with optional SHIFT.
     switch (evt.keyCode) {
-      case 70: // f
-        if (!this.supportsIntegratedFind && !evt.shiftKey) {
-          this.findBar?.open();
-          handled = true;
-        }
-        break;
+      // case 70: // f
+      //   if (!this.supportsIntegratedFind && !evt.shiftKey) {
+      //     this.findBar?.open();
+      //     handled = true;
+      //   }
+      //   break;
       case 71: // g
         if (!this.supportsIntegratedFind) {
           const { state } = this.findController;
@@ -2799,30 +2803,30 @@ function onKeyDown(evt) {
           handled = true;
         }
         break;
-      case 61: // FF/Mac '='
-      case 107: // FF '+' and '='
-      case 187: // Chrome '+'
-      case 171: // FF with German keyboard
-        this.zoomIn();
-        handled = true;
-        break;
-      case 173: // FF/Mac '-'
-      case 109: // FF '-'
-      case 189: // Chrome '-'
-        this.zoomOut();
-        handled = true;
-        break;
-      case 48: // '0'
-      case 96: // '0' on Numpad of Swedish keyboard
-        if (!isViewerInPresentationMode) {
-          // keeping it unhandled (to restore page zoom to 100%)
-          setTimeout(() => {
-            // ... and resetting the scale after browser adjusts its scale
-            this.zoomReset();
-          });
-          handled = false;
-        }
-        break;
+      // case 61: // FF/Mac '='
+      // case 107: // FF '+' and '='
+      // case 187: // Chrome '+'
+      // case 171: // FF with German keyboard
+      //   this.zoomIn();
+      //   handled = true;
+      //   break;
+      // case 173: // FF/Mac '-'
+      // case 109: // FF '-'
+      // case 189: // Chrome '-'
+      //   this.zoomOut();
+      //   handled = true;
+      //   break;
+      // case 48: // '0'
+      // case 96: // '0' on Numpad of Swedish keyboard
+      //   if (!isViewerInPresentationMode) {
+      //     // keeping it unhandled (to restore page zoom to 100%)
+      //     setTimeout(() => {
+      //       // ... and resetting the scale after browser adjusts its scale
+      //       this.zoomReset();
+      //     });
+      //     handled = false;
+      //   }
+      //   break;
 
       case 38: // up arrow
         if (isViewerInPresentationMode || this.page > 1) {
@@ -2841,45 +2845,45 @@ function onKeyDown(evt) {
     }
   }
 
-  if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC || CHROME")) {
-    // CTRL or META without shift
-    if (cmd === 1 || cmd === 8) {
-      switch (evt.keyCode) {
-        case 83: // s
-          eventBus.dispatch("download", { source: window });
-          handled = true;
-          break;
+  // if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC || CHROME")) {
+  //   // CTRL or META without shift
+  //   if (cmd === 1 || cmd === 8) {
+  //     switch (evt.keyCode) {
+  //       case 83: // s
+  //         eventBus.dispatch("download", { source: window });
+  //         handled = true;
+  //         break;
 
-        case 79: // o
-          if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
-            eventBus.dispatch("openfile", { source: window });
-            handled = true;
-          }
-          break;
-      }
-    }
-  }
+  //       case 79: // o
+  //         if (typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")) {
+  //           eventBus.dispatch("openfile", { source: window });
+  //           handled = true;
+  //         }
+  //         break;
+  //     }
+  //   }
+  // }
 
   // CTRL+ALT or Option+Command
-  if (cmd === 3 || cmd === 10) {
-    switch (evt.keyCode) {
-      case 80: // p
-        this.requestPresentationMode();
-        handled = true;
-        this.externalServices.reportTelemetry({
-          type: "buttons",
-          data: { id: "presentationModeKeyboard" },
-        });
-        break;
-      case 71: // g
-        // focuses input#pageNumber field
-        if (this.appConfig.toolbar) {
-          this.appConfig.toolbar.pageNumber.select();
-          handled = true;
-        }
-        break;
-    }
-  }
+  // if (cmd === 3 || cmd === 10) {
+  //   switch (evt.keyCode) {
+  //     case 80: // p
+  //       this.requestPresentationMode();
+  //       handled = true;
+  //       this.externalServices.reportTelemetry({
+  //         type: "buttons",
+  //         data: { id: "presentationModeKeyboard" },
+  //       });
+  //       break;
+  //     case 71: // g
+  //       // focuses input#pageNumber field
+  //       if (this.appConfig.toolbar) {
+  //         this.appConfig.toolbar.pageNumber.select();
+  //         handled = true;
+  //       }
+  //       break;
+  //   }
+  // }
 
   if (handled) {
     if (ensureViewerFocused && !isViewerInPresentationMode) {
@@ -2941,10 +2945,10 @@ function onKeyDown(evt) {
           turnOnlyIfPageFit = true;
         }
       /* falls through */
-      case 75: // 'k'
-      case 80: // 'p'
-        turnPage = -1;
-        break;
+      // case 75: // 'k'
+      // case 80: // 'p'
+      //   turnPage = -1;
+      //   break;
       case 27: // esc key
         if (this.secondaryToolbar?.isOpen) {
           this.secondaryToolbar.close();
@@ -2969,13 +2973,13 @@ function onKeyDown(evt) {
         }
         turnPage = 1;
         break;
-      case 13: // enter key
-      case 32: // spacebar
-        if (!isViewerInPresentationMode) {
-          turnOnlyIfPageFit = true;
-        }
-        turnPage = 1;
-        break;
+      // case 13: // enter key
+      // case 32: // spacebar
+      //   if (!isViewerInPresentationMode) {
+      //     turnOnlyIfPageFit = true;
+      //   }
+      //   turnPage = 1;
+      //   break;
       case 39: // right arrow
         if (this.supportsCaretBrowsingMode) {
           return;
@@ -2985,10 +2989,10 @@ function onKeyDown(evt) {
           turnOnlyIfPageFit = true;
         }
       /* falls through */
-      case 74: // 'j'
-      case 78: // 'n'
-        turnPage = 1;
-        break;
+      // case 74: // 'j'
+      // case 78: // 'n'
+      //   turnPage = 1;
+      //   break;
 
       case 36: // home
         if (isViewerInPresentationMode || this.page > 1) {
@@ -3005,20 +3009,20 @@ function onKeyDown(evt) {
         }
         break;
 
-      case 83: // 's'
-        this.pdfCursorTools?.switchTool(CursorTool.SELECT);
-        break;
-      case 72: // 'h'
-        this.pdfCursorTools?.switchTool(CursorTool.HAND);
-        break;
+      // case 83: // 's'
+      //   this.pdfCursorTools?.switchTool(CursorTool.SELECT);
+      //   break;
+      // case 72: // 'h'
+      //   this.pdfCursorTools?.switchTool(CursorTool.HAND);
+      //   break;
 
-      case 82: // 'r'
-        this.rotatePages(90);
-        break;
+      // case 82: // 'r'
+      //   this.rotatePages(90);
+      //   break;
 
-      case 115: // F4
-        this.pdfSidebar?.toggle();
-        break;
+      // case 115: // F4
+      //   this.pdfSidebar?.toggle();
+      //   break;
     }
 
     if (
@@ -3058,30 +3062,30 @@ function onKeyDown(evt) {
         this.moveCaret(/* isUp = */ false, /* select = */ true);
         handled = true;
         break;
-      case 82: // 'r'
-        this.rotatePages(-90);
-        break;
+      // case 82: // 'r'
+      //   this.rotatePages(-90);
+      //   break;
     }
   }
 
-  if (!handled && !isViewerInPresentationMode) {
-    // 33=Page Up  34=Page Down  35=End    36=Home
-    // 37=Left     38=Up         39=Right  40=Down
-    // 32=Spacebar
-    if (
-      (evt.keyCode >= 33 && evt.keyCode <= 40) ||
-      (evt.keyCode === 32 && curElementTagName !== "BUTTON")
-    ) {
-      ensureViewerFocused = true;
-    }
-  }
+  // if (!handled && !isViewerInPresentationMode) {
+  //   // 33=Page Up  34=Page Down  35=End    36=Home
+  //   // 37=Left     38=Up         39=Right  40=Down
+  //   // 32=Spacebar
+  //   if (
+  //     (evt.keyCode >= 33 && evt.keyCode <= 40) ||
+  //     (evt.keyCode === 32 && curElementTagName !== "BUTTON")
+  //   ) {
+  //     ensureViewerFocused = true;
+  //   }
+  // }
 
-  if (ensureViewerFocused && !pdfViewer.containsElement(curElement)) {
-    // The page container is not focused, but a page navigation key has been
-    // pressed. Change the focus to the viewer container to make sure that
-    // navigation by keyboard works as expected.
-    pdfViewer.focus();
-  }
+  // if (ensureViewerFocused && !pdfViewer.containsElement(curElement)) {
+  //   // The page container is not focused, but a page navigation key has been
+  //   // pressed. Change the focus to the viewer container to make sure that
+  //   // navigation by keyboard works as expected.
+  //   pdfViewer.focus();
+  // }
 
   if (handled) {
     evt.preventDefault();

@@ -140,6 +140,18 @@ class SecondaryToolbar {
         close: true,
       },
       {
+        element: options.spreadOddReverseButton,
+        eventName: "switchspreadmode",
+        eventDetails: { mode: SpreadMode.ODDREVERSE },
+        close: true
+      },
+      {
+        element: options.spreadEvenReverseButton,
+        eventName: "switchspreadmode",
+        eventDetails: { mode: SpreadMode.EVENREVERSE },
+        close: true
+      },
+      {
         element: options.imageAltTextSettingsButton,
         eventName: "imagealttextsettings",
         close: true,
@@ -212,7 +224,17 @@ class SecondaryToolbar {
 
   #bindListeners(buttons) {
     const { eventBus } = this;
-    const { toggleButton } = this.#opts;
+    const { toggleButton, fullscreenButton } = this.#opts;
+
+    this.fullscreenButton = fullscreenButton;
+
+    // add event handler for custom fullscreen button
+    fullscreenButton.addEventListener("click", evt => {
+      eventBus.dispatch("presentationmode", {
+        source: this
+      });
+    });
+
     // Button to toggle the visibility of the secondary toolbar.
     toggleButton.addEventListener("click", this.toggle.bind(this));
 
@@ -259,6 +281,8 @@ class SecondaryToolbar {
       spreadNoneButton,
       spreadOddButton,
       spreadEvenButton,
+      spreadOddReverseButton,
+      spreadEvenReverseButton,
     } = this.#opts;
 
     toggleCheckedBtn(scrollPageButton, mode === ScrollMode.PAGE);
@@ -278,17 +302,23 @@ class SecondaryToolbar {
     // Temporarily *disable* the Spread buttons when horizontal scrolling is
     // enabled, since the non-default Spread modes doesn't affect the layout.
     const isHorizontal = mode === ScrollMode.HORIZONTAL;
-    spreadNoneButton.disabled = isHorizontal;
-    spreadOddButton.disabled = isHorizontal;
-    spreadEvenButton.disabled = isHorizontal;
+    const isWrapped = mode === ScrollMode.WRAPPED;
+    spreadNoneButton.disabled = isWrapped || isHorizontal;
+    spreadOddButton.disabled = isWrapped || isHorizontal;
+    spreadEvenButton.disabled = isWrapped || isHorizontal;
+    spreadOddReverseButton.disabled = isWrapped || isHorizontal;
+    spreadEvenReverseButton.disabled = isWrapped || isHorizontal;
   }
 
   #spreadModeChanged({ mode }) {
-    const { spreadNoneButton, spreadOddButton, spreadEvenButton } = this.#opts;
+    const { spreadNoneButton, spreadOddButton, spreadEvenButton,
+      spreadOddReverseButton, spreadEvenReverseButton } = this.#opts;
 
     toggleCheckedBtn(spreadNoneButton, mode === SpreadMode.NONE);
     toggleCheckedBtn(spreadOddButton, mode === SpreadMode.ODD);
     toggleCheckedBtn(spreadEvenButton, mode === SpreadMode.EVEN);
+    toggleCheckedBtn(spreadOddReverseButton, mode === SpreadMode.ODDREVERSE);
+    toggleCheckedBtn(spreadEvenReverseButton, mode === SpreadMode.EVENREVERSE);
   }
 
   open() {

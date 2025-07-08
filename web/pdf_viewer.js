@@ -1205,7 +1205,8 @@ class PDFViewer {
       state.pages.push(pageView);
     } else {
       const pageIndexSet = new Set(),
-        parity = this._spreadMode - 1;
+        parity = (this._spreadMode - 1) % 2,
+        isReverse = this._spreadMode === 3 || this._spreadMode === 4;
 
       // Determine the pageIndices in the new spread.
       if (parity === -1) {
@@ -1213,12 +1214,22 @@ class PDFViewer {
         pageIndexSet.add(pageNumber - 1);
       } else if (pageNumber % 2 !== parity) {
         // Left-hand side page.
-        pageIndexSet.add(pageNumber - 1);
-        pageIndexSet.add(pageNumber);
+        if (isReverse) {
+          pageIndexSet.add(pageNumber);
+          pageIndexSet.add(pageNumber - 1);
+        } else {
+          pageIndexSet.add(pageNumber - 1);
+          pageIndexSet.add(pageNumber);
+        }
       } else {
         // Right-hand side page.
-        pageIndexSet.add(pageNumber - 2);
-        pageIndexSet.add(pageNumber - 1);
+        if (isReverse) {
+          pageIndexSet.add(pageNumber - 1);
+          pageIndexSet.add(pageNumber - 2);
+        } else {
+          pageIndexSet.add(pageNumber - 2);
+          pageIndexSet.add(pageNumber - 1);
+        }
       }
 
       // Finally, append the new pages to the viewer and apply the spreadMode.
@@ -1278,7 +1289,7 @@ class PDFViewer {
       this.update();
     }
 
-    if (!pageSpot && !this.isInPresentationMode) {
+    if (!pageSpot) {
       const left = div.offsetLeft + div.clientLeft,
         right = left + div.clientWidth;
       const { scrollLeft, clientWidth } = this.container;
@@ -2045,10 +2056,19 @@ class PDFViewer {
 
     if (scrollMode === ScrollMode.PAGE) {
       this.#ensurePageViewVisible();
-    } else if (this._previousScrollMode === ScrollMode.PAGE) {
-      // Ensure that the current spreadMode is still applied correctly when
-      // the *previous* scrollMode was `ScrollMode.PAGE`.
-      this._updateSpreadMode();
+    } else {
+      // customized: reset spread mode to none when scroll mode is not page or vertical
+      if (scrollMode !== ScrollMode.VERTICAL && scrollMode !== ScrollMode.PAGE) {
+        setTimeout(() => {
+          if (this.spreadMode === SpreadMode.NONE) {
+            this._updateSpreadMode(pageNumber);
+          } else {
+            this.spreadMode = SpreadMode.NONE;
+          }
+        });
+      } else {
+        this._updateSpreadMode(pageNumber);
+      }
     }
     // Non-numeric scale values can be sensitive to the scroll orientation.
     // Call this before re-scrolling to the current page, to ensure that any
@@ -2112,7 +2132,8 @@ class PDFViewer {
           viewer.append(pageView.div);
         }
       } else {
-        const parity = this._spreadMode - 1;
+        const parity = (this._spreadMode - 1) % 2;
+        const isReverse = this._spreadMode === 3 || this._spreadMode === 4;
         let spread = null;
         for (let i = 0, ii = pages.length; i < ii; ++i) {
           if (spread === null) {
@@ -2123,7 +2144,7 @@ class PDFViewer {
             spread = spread.cloneNode(false);
             viewer.append(spread);
           }
-          spread.append(pages[i].div);
+          isReverse ? spread.prepend(pages[i].div) : spread.append(pages[i].div);
         }
       }
     }
@@ -2213,7 +2234,7 @@ class PDFViewer {
         if (this._spreadMode === SpreadMode.NONE) {
           break; // Normal vertical scrolling.
         }
-        const parity = this._spreadMode - 1;
+        const parity = (this._spreadMode - 1) % 2;
 
         if (previous && currentPageNumber % 2 !== parity) {
           break; // Left-hand side page.

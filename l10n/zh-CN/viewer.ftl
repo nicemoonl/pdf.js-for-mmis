@@ -13,15 +13,15 @@ pdfjs-next-button =
 pdfjs-next-button-label = 下一页
 # .title: Tooltip for the pageNumber input.
 pdfjs-page-input =
-    .title = 页面
+    .title = 第
 # Variables:
 #   $pagesCount (Number) - the total number of pages in the document
 # This string follows an input field with the number of the page currently displayed.
-pdfjs-of-pages = / { $pagesCount }
+pdfjs-of-pages = 页，共 { $pagesCount } 页
 # Variables:
 #   $pageNumber (Number) - the currently visible page
 #   $pagesCount (Number) - the total number of pages in the document
-pdfjs-page-of-pages = ({ $pageNumber } / { $pagesCount })
+pdfjs-page-of-pages = （第 { $pageNumber } 页，共 { $pagesCount } 页）
 pdfjs-zoom-out-button =
     .title = 缩小
 pdfjs-zoom-out-button-label = 缩小
@@ -31,8 +31,8 @@ pdfjs-zoom-in-button-label = 放大
 pdfjs-zoom-select =
     .title = 缩放
 pdfjs-presentation-mode-button =
-    .title = 切换到演示模式
-pdfjs-presentation-mode-button-label = 演示模式
+    .title = 切换到全屏模式
+pdfjs-presentation-mode-button-label = 全屏模式
 pdfjs-open-file-button =
     .title = 打开文件
 pdfjs-open-file-button-label = 打开
@@ -96,6 +96,12 @@ pdfjs-spread-odd-button-label = 双页视图
 pdfjs-spread-even-button =
     .title = 加入衔接页使偶数页作为起始页
 pdfjs-spread-even-button-label = 书籍视图
+pdfjs-spread-odd-reverse-button =
+    .title = 加入衔接页使奇数页作为起始页（右至左）
+pdfjs-spread-odd-reverse-button-label = 双页视图（右至左）
+pdfjs-spread-even-reverse-button =
+    .title = 加入衔接页使偶数页作为起始页（右至左）
+pdfjs-spread-even-reverse-button-label = 书籍视图（右至左）
 
 ## Document properties dialog
 
@@ -181,10 +187,10 @@ pdfjs-printing-not-ready = 警告：此 PDF 未完成加载，无法打印。
 pdfjs-toggle-sidebar-button =
     .title = 切换侧栏
 pdfjs-toggle-sidebar-notification-button =
-    .title = 切换侧栏（文档所含的大纲/附件/图层）
+    .title = 切换侧栏
 pdfjs-toggle-sidebar-button-label = 切换侧栏
 pdfjs-document-outline-button =
-    .title = 显示文档大纲（双击展开/折叠所有项）
+    .title = 显示文档大纲
 pdfjs-document-outline-button-label = 文档大纲
 pdfjs-attachments-button =
     .title = 显示附件
