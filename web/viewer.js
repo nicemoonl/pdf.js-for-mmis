@@ -25,6 +25,11 @@ import { PDFViewerApplication } from "./app.js";
 // MOB exclusive
 const urlParams = new URLSearchParams(window.location.search);
 window.isMob = urlParams.get("mob") === "1";
+if (window.isMob) {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("mob");
+  });
+}
 
 const AppConstants =
   typeof PDFJSDev === "undefined" || PDFJSDev.test("GENERIC")

@@ -1643,6 +1643,10 @@ dialog :link {
   }
 }
 
+body.mob .hidden-in-mob {
+  display: none !important;
+}
+
 @media all and (max-width: 840px) {
   #sidebarContainer {
     background-color: var(--sidebar-narrow-bg-color);
