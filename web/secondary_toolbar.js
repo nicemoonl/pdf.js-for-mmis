@@ -49,6 +49,12 @@ import { PagesCountLimit } from "./pdf_viewer.js";
  *   select tool.
  * @property {HTMLButtonElement} cursorHandToolButton - Button to enable the
  *   hand tool.
+ * @property {HTMLButtonElement} cursorSelectToolTopButton - Button to enable
+ *   the select tool in top toolbar.
+ * @property {HTMLButtonElement} cursorHandToolTopButton - Button to enable the
+ *   hand tool in top toolbar.
+ * @property {HTMLButtonElement} fullscreenButton - Button to enter fullscreen
+ *   mode.
  * @property {HTMLButtonElement} imageAltTextSettingsButton - Button for opening
  *   the image alt-text settings dialog.
  * @property {HTMLButtonElement} documentPropertiesButton - Button for opening
@@ -93,6 +99,20 @@ class SecondaryToolbar {
       },
       {
         element: options.cursorHandToolButton,
+        eventName: "switchcursortool",
+        eventDetails: { tool: CursorTool.HAND },
+        close: true,
+      },
+      {
+        // custom button for text select tool in top toolbar
+        element: options.cursorSelectToolTopButton,
+        eventName: "switchcursortool",
+        eventDetails: { tool: CursorTool.SELECT },
+        close: true,
+      },
+      {
+        // custom button for hand tool in top toolbar
+        element: options.cursorHandToolTopButton,
         eventName: "switchcursortool",
         eventDetails: { tool: CursorTool.HAND },
         close: true,
@@ -263,13 +283,22 @@ class SecondaryToolbar {
   }
 
   #cursorToolChanged({ tool, disabled }) {
-    const { cursorSelectToolButton, cursorHandToolButton } = this.#opts;
+    const {
+      cursorSelectToolButton,
+      cursorHandToolButton,
+      cursorSelectToolTopButton,
+      cursorHandToolTopButton,
+    } = this.#opts;
 
     toggleCheckedBtn(cursorSelectToolButton, tool === CursorTool.SELECT);
     toggleCheckedBtn(cursorHandToolButton, tool === CursorTool.HAND);
+    toggleCheckedBtn(cursorSelectToolTopButton, tool === CursorTool.SELECT);
+    toggleCheckedBtn(cursorHandToolTopButton, tool === CursorTool.HAND);
 
     cursorSelectToolButton.disabled = disabled;
     cursorHandToolButton.disabled = disabled;
+    cursorSelectToolTopButton.disabled = disabled;
+    cursorHandToolTopButton.disabled = disabled;
   }
 
   #scrollModeChanged({ mode }) {

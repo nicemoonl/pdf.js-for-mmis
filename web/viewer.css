@@ -504,6 +504,16 @@ body {
   transform: scaleX(var(--dir-factor));
 }
 
+/* custom cursor tool and hand tool button */
+#cursorSelectToolTop::before {
+  mask-image: var(--secondaryToolbarButton-selectTool-icon);
+  transform: scaleX(var(--dir-factor));
+}
+#cursorHandToolTop::before {
+  mask-image: var(--secondaryToolbarButton-handTool-icon);
+  transform: scaleX(var(--dir-factor));
+}
+
 /* custom fullscreen button */
 #fullscreenToggle::before {
   -webkit-mask-image: var(--toolbarButton-presentationMode-icon);

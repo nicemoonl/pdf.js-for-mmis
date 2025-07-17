@@ -82,6 +82,8 @@ function getViewerConfiguration() {
     },
     secondaryToolbar: {
       toolbar: document.getElementById("secondaryToolbar"),
+      cursorSelectToolTopButton: document.getElementById("cursorSelectToolTop"), // custom button for text select tool in top toolbar
+      cursorHandToolTopButton: document.getElementById("cursorHandToolTop"), // custom button for hand tool in top toolbar
       fullscreenButton: document.getElementById("fullscreenToggle"), // custom button for fullscreen mode, same function as presentationModeButton
       toggleButton: document.getElementById("secondaryToolbarToggleButton"),
       presentationModeButton: document.getElementById("presentationMode"),
