@@ -270,7 +270,8 @@
       --alt-text-hover-warning-color: var(--editor-toolbar-hover-fg-color);
     }
 
-    display: flex;
+    /* display: flex; */
+    display: none !important; /* hide the floating editor toolbar */
     width: fit-content;
     height: var(--editor-toolbar-height);
     flex-direction: column;
