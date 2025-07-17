@@ -143,13 +143,13 @@ class SecondaryToolbar {
         element: options.spreadOddReverseButton,
         eventName: "switchspreadmode",
         eventDetails: { mode: SpreadMode.ODDREVERSE },
-        close: true
+        close: true,
       },
       {
         element: options.spreadEvenReverseButton,
         eventName: "switchspreadmode",
         eventDetails: { mode: SpreadMode.EVENREVERSE },
-        close: true
+        close: true,
       },
       {
         element: options.imageAltTextSettingsButton,
@@ -231,7 +231,7 @@ class SecondaryToolbar {
     // add event handler for custom fullscreen button
     fullscreenButton.addEventListener("click", evt => {
       eventBus.dispatch("presentationmode", {
-        source: this
+        source: this,
       });
     });
 
