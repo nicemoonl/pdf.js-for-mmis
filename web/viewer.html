@@ -95,6 +95,13 @@ See https://github.com/adobe-type-tools/cmap-resources
     </script>
     <script src="viewer.js" type="module"></script>
     <!--#endif-->
+    <script>
+      window.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("viewerContainer").addEventListener("contextmenu", function (e) {
+          e.preventDefault();
+        });
+      });
+    </script>
   </head>
 
   <body tabindex="0">
@@ -128,7 +135,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                 >
                   <div id="viewsManagerHeader" role="heading" aria-level="2">
                     <div id="viewsManagerTitle">
-                      <div id="viewsManagerSelector">
+                      <div id="viewsManagerSelector" hidden="true">
                         <button
                           class="toolbarButton viewsManagerButton"
                           type="button"
@@ -399,7 +406,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </span>
               </div>
               <div id="toolbarViewerRight" class="toolbarHorizontalGroup">
-                <div id="editorModeButtons" class="toolbarHorizontalGroup">
+                <div id="editorModeButtons" class="toolbarHorizontalGroup" hidden="true">
                   <div id="editorComment" class="toolbarButtonWithContainer" hidden="true">
                     <button
                       id="editorCommentButton"
@@ -460,7 +467,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                       </div>
                     </div>
                   </div>
-                  <div id="editorHighlight" class="toolbarButtonWithContainer">
+                  <div id="editorHighlight" class="toolbarButtonWithContainer" hidden="true">
                     <button
                       id="editorHighlightButton"
                       class="toolbarButton"
@@ -516,7 +523,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                       </div>
                     </div>
                   </div>
-                  <div id="editorFreeText" class="toolbarButtonWithContainer">
+                  <div id="editorFreeText" class="toolbarButtonWithContainer" hidden="true">
                     <button
                       id="editorFreeTextButton"
                       class="toolbarButton"
@@ -543,7 +550,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                       </div>
                     </div>
                   </div>
-                  <div id="editorInk" class="toolbarButtonWithContainer">
+                  <div id="editorInk" class="toolbarButtonWithContainer" hidden="true">
                     <button
                       id="editorInkButton"
                       class="toolbarButton"
@@ -574,7 +581,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                       </div>
                     </div>
                   </div>
-                  <div id="editorStamp" class="toolbarButtonWithContainer">
+                  <div id="editorStamp" class="toolbarButtonWithContainer" hidden="true">
                     <button
                       id="editorStampButton"
                       class="toolbarButton"
@@ -604,19 +611,19 @@ See https://github.com/adobe-type-tools/cmap-resources
                   </div>
                 </div>
 
-                <div id="editorModeSeparator" class="verticalToolbarSeparator"></div>
+                <div id="editorModeSeparator" class="verticalToolbarSeparator" hidden="true"></div>
 
                 <div class="toolbarHorizontalGroup hiddenMediumView">
-                  <button id="printButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-print-button">
+                  <button id="printButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-print-button" hidden="true">
                     <span data-l10n-id="pdfjs-print-button-label"></span>
                   </button>
 
-                  <button id="downloadButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-save-button">
+                  <button id="downloadButton" class="toolbarButton" type="button" tabindex="0" data-l10n-id="pdfjs-save-button" hidden="true">
                     <span data-l10n-id="pdfjs-save-button-label"></span>
                   </button>
                 </div>
 
-                <div class="verticalToolbarSeparator hiddenMediumView"></div>
+                <div class="verticalToolbarSeparator hiddenMediumView" hidden="true"></div>
 
                 <div id="secondaryToolbarToggle" class="toolbarButtonWithContainer">
                   <button
@@ -634,17 +641,17 @@ See https://github.com/adobe-type-tools/cmap-resources
                   <div id="secondaryToolbar" class="hidden doorHangerRight menu">
                     <div id="secondaryToolbarButtonContainer" class="menuContainer">
                       <!--#if GENERIC-->
-                      <button id="secondaryOpenFile" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-open-file-button">
+                      <button id="secondaryOpenFile" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-open-file-button" hidden="true">
                         <span data-l10n-id="pdfjs-open-file-button-label"></span>
                       </button>
                       <!--#endif-->
 
                       <div class="visibleMediumView">
-                        <button id="secondaryPrint" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-print-button">
+                        <button id="secondaryPrint" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-print-button" hidden="true">
                           <span data-l10n-id="pdfjs-print-button-label"></span>
                         </button>
 
-                        <button id="secondaryDownload" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-save-button">
+                        <button id="secondaryDownload" class="toolbarButton labeled" type="button" tabindex="0" data-l10n-id="pdfjs-save-button" hidden="true">
                           <span data-l10n-id="pdfjs-save-button-label"></span>
                         </button>
 
