@@ -112,6 +112,13 @@ class L10n {
   }
 
   static #fixupLangCode(langCode) {
+    // customized: get locale from query string
+    const locale = new URLSearchParams(window.location.search).get("locale");
+
+    if (locale) {
+      return locale;
+    }
+
     // Use only lowercase language-codes internally, and fallback to English.
     langCode = langCode?.toLowerCase() || "en-us";
 

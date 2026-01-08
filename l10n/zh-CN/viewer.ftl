@@ -612,6 +612,22 @@ pdfjs-editor-edit-comment-dialog-text-input =
     .placeholder = 开始键入…
 pdfjs-editor-edit-comment-dialog-cancel-button = 取消
 
+## The view manager is a sidebar displaying different views:
+##  - thumbnails;
+##  - outline;
+##  - attachments;
+##  - layers.
+## The thumbnails view is used to edit the pdf: remove/insert pages, ...
+pdfjs-views-manager-pages-title = 缩图
+pdfjs-views-manager-outlines-title = 文件大纲
+pdfjs-views-manager-attachments-title = 附件
+pdfjs-views-manager-layers-title = 图层
+
+pdfjs-views-manager-pages-option-label = 缩图
+pdfjs-views-manager-outlines-option-label = 文件大纲
+pdfjs-views-manager-attachments-option-label = 附件
+pdfjs-views-manager-layers-option-label = 图层
+
 ## Edit a comment button in the editor toolbar
 
 pdfjs-editor-add-comment-button =
