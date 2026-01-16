@@ -1372,6 +1372,14 @@ dialog :link {
       padding-inline-start: 3px;
       flex: none;
     }
+
+    #cursorSelectTool::before {
+      mask-image: var(--secondaryToolbarButton-selectTool-icon);
+    }
+
+    #cursorHandTool::before {
+      mask-image: var(--secondaryToolbarButton-handTool-icon);
+    }
   }
 
   #loadingBar {
